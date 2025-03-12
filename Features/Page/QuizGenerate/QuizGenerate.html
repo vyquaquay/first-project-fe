@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Generator</title>
+    <link rel="stylesheet" href="../../Style/QuizGenerate/QuizGenerate.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Add SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Add Content Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com http://2.59.135.31:3000 https://cdn.jsdelivr.net; 
+          script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+          connect-src 'self' http://2.59.135.31:3000;
+          style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
+    />
+    <!-- Add the auth check script -->
+    <script src="../../API/Auth/AuthCheck.js"></script>
+    <script>
+      // Check authentication when the page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!checkAuth()) {
+          // If checkAuth returns false, it means the user was redirected
+          // We can also show a message using SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Access Denied',
+            text: 'Please sign in to generate quizzes',
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <button
+      class="back-btn"
+      onclick="window.location.href='../HomePage/HomPage.html'"
+    >
+      <img src="../../Assets/Icon/211686_back_arrow_icon.svg" alt="Back" />
+      Back to Home
+    </button>
+
+    <div class="container">
+      <!-- Loading State -->
+      <img
+        class="ai-thinking"
+        id="loading-gif"
+        src="../../Style/Image/ai-generate.gif"
+        alt="Loading..."
+      />
+      <p class="loading-text">Wait a bit, your quiz is ready in a second...</p>
+
+      <!-- Completion State -->
+      <div class="completion-state">
+        <img class="done-image" src="../../Style/Image/done.gif" alt="Done!" />
+        <p class="completion-text">Your quizset has been generated!</p>
+        <div class="button-group">
+          <button class="view-questions-btn" id="viewQuestionsBtn">
+            View Questions
+          </button>
+          <button class="play-now-btn" id="playNowBtn">Play Now</button>
+          <button
+            class="back-home-btn"
+            onclick="window.location.href='../HomePage/HomPage.html'"
+          >
+            Back to Home
+          </button>
+        </div>
+      </div>
+
+      <!-- Initial Form State -->
+      <header>
+        <h1>Quiz Generator</h1>
+        <p>Create your custom quiz below</p>
+      </header>
+
+      <main class="quiz-form">
+        <div class="form-group">
+          <label for="topic">Quiz Topic:</label>
+          <input type="text" id="topic" placeholder="Enter quiz topic" />
+        </div>
+
+        <div class="form-group">
+          <label for="numQuestions">Number of Questions:</label>
+          <input type="number" id="numQuestions" min="1" max="20" value="5" />
+        </div>
+        <div class="form-group">
+          <label for="language">Language:</label>
+          <select id="language">
+            <option value="english">English</option>
+            <option value="vietnamese">Vietnamese</option>
+            <option value="chinese">Chinese</option>
+            <option value="japanese">Japanese</option>
+          </select>
+        </div>
+
+        <button type="submit" id="generateBtn" class="generate-btn">
+          Generate Quiz
+          <img
+            class="quizgen-btn-image"
+            src="../../Style/Image/quizgen-btn-image.png"
+            alt="arrow-right"
+          />
+        </button>
+      </main>
+    </div>
+    <div class="popup-overlay" id="questionsPopup">
+      <div class="popup-content">
+        <button class="close-popup">&times;</button>
+        <h2>Generated Questions</h2>
+        <div class="questions-list"></div>
+        <div class="popup-buttons">
+          <button class="delete-quiz">Delete Quiz</button>
+          <button class="regenerate-quiz">Regenerate Quiz</button>
+        </div>
+      </div>
+    </div>
+    <script src="QuizGenerate.js"></script>
+    <iframe
+      src="../../Style/QuizGenerate/background.html"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        z-index: -1;
+        pointer-events: none;
+      "
+    ></iframe>
+  </body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Play Quiz</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="../../Style/PlayQuiz/PlayQuiz.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <!-- Add Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <!-- Add other Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Add the auth check script -->
+    <script src="../../API/Auth/AuthCheck.js"></script>
+    <script>
+        // Check authentication when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!checkAuth()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'Please sign in to play quizzes',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="#"><img src="../../Assets/Img/ImgHomePage/logo.svg" id="backHomeBtn" alt="Quizy" /></a>
+      </div>
+      <div class="join-game">
+        <div class="join-game-content">
+          <h1>Join Game? Enter PIN:</h1>
+          <input type="text" placeholder="123 456" class="pin-input" />
+        </div>
+
+        <button class="search-btn">
+          <img src="../../Assets/Img/ImgHomePage/search.svg" alt="Search" />
+        </button>
+      </div>
+      <button class="signin-btn" id="md-btn">Sign in</button>
+    </header>
+    <div class="container">
+      <div class="quiz-container">
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+          <video class="loading-video" autoplay loop muted playsinline>
+            <source src="../../Assets/Img/QuizgenImage/Quizwaittest.webm" type="video/webm" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        
+        <!-- Header -->
+        <div class="header">
+          <div class="quiz-info">
+            <h1 class="quiz-title" id="quizTitle">Loading quiz...</h1>
+            <div class="quiz-meta">
+              <span class="question-counter" id="questionCounter"
+                >Question: 0/0</span
+              >
+              <span class="total-score" id="totalScore">Score: 0</span>
+            </div>
+          </div>
+          <div class="timer-container">
+            <div class="timer" id="timer">10</div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Question -->
+          <div class="question-container">
+            <p class="question-text" id="questionText">Loading question...</p>
+          </div>
+
+          <!-- Answer Options -->
+          <div class="options-container">
+            <button class="option-btn red" id="optionA" data-choice="A">
+              <span class="option-label">A</span>
+              <span class="option-text">Loading...</span>
+            </button>
+            <button class="option-btn yellow" id="optionB" data-choice="B">
+              <span class="option-label">B</span>
+              <span class="option-text">Loading...</span>
+            </button>
+            <button class="option-btn blue" id="optionC" data-choice="C">
+              <span class="option-label">C</span>
+              <span class="option-text">Loading...</span>
+            </button>
+            <button class="option-btn green" id="optionD" data-choice="D">
+              <span class="option-label">D</span>
+              <span class="option-text">Loading...</span>
+            </button>
+          </div>
+
+          <!-- Status Message -->
+          <div class="status-message" id="statusMessage"></div>
+        </div>
+      </div>
+    </div>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <h2>Sign in</h2>
+        <div class="flex-container">
+          <button class="google-btn" id="google-signin">
+            <img
+              src="../../Assets/Icon/google-icon-logo-svgrepo-com.svg"
+              alt="Google"
+            />
+            Sign in with Google
+          </button>
+          <div>
+            <span class="close" style="text-decoration: underline">Cancel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="PlayQuiz.js"></script>
+    <script src="../../API/SignIn-SignOut/SignInAPI.js"></script>
+  </body>
+</html>

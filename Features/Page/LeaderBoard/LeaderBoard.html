@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="../../Style/HomePageStyle/HomePage.css">
+  <link rel="stylesheet" href="../../Style/LeaderBoard/LeaderBoard.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <!-- Add Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <!-- Add other Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- Add the auth check script -->
+  <script src="../../API/Auth/AuthCheck.js"></script>
+  <script>
+    // Check authentication when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!checkAuth()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Access Denied',
+          text: 'Please sign in to view the leaderboard',
+          confirmButtonText: 'OK'
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+
+  <!-- Header giống với HomePage -->
+  <header class="header">
+    <div class="logo">
+      <a href="../HomePage/HomPage.html"><img src="../../Assets/Img/ImgHomePage/logo.svg" alt="Quizy" /></a>
+    </div>
+    <div class="join-game">
+      <div class="join-game-content">
+        <h1>Join Game? Enter PIN:</h1>
+        <input type="text" placeholder="123 456" class="pin-input" />
+      </div>
+
+      <button class="search-btn">
+        <img src="../../Assets/Img/ImgHomePage/search.svg" alt="Search" />
+      </button>
+    </div>
+    <button class="signin-btn" id="md-btn">Sign in</button>
+  </header>
+
+  <main class="container">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <video class="loading-video" autoplay loop muted playsinline>
+        <source src="../../Assets/Img/QuizgenImage/Leaderboard_loading.webm" type="video/webm">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Quiz Info -->
+    <div class="quiz-info">
+      <h1 id="quizTitle">Quiz Title</h1>
+      <p id="quizDescription">Quiz Description</p>
+    </div>
+
+    <!-- Top Players Section -->
+    <section class="leaderboard-section">
+      <h2>Top Players 🏆</h2>
+      <div class="leaderboard-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
+              <th>Time</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <!-- Data will be inserted dynamically via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Your Results Section -->
+    <section class="results-section">
+      <h2>Your Results</h2>
+      <div class="results-summary">
+        <div class="summary-item1">
+          <span class="label">Final Score 🏆</span>
+          <span class="value" id="finalScore">0</span>
+        </div>
+        <div class="summary-item2">
+          <span class="label">Correct Answers ✅</span>
+          <span class="value" id="correctAnswers">0/0</span>
+        </div>
+        <div class="summary-item3">
+          <span class="label">Time Taken ⏰</span>
+          <span class="value" id="timeTaken">0:00</span>
+        </div>
+      </div>
+
+      <!-- Detailed Results -->
+      <div class="detailed-results">
+        <h3>Question Details</h3>
+        <div class="questions-container" id="questionsContainer">
+          <!-- Data will be dynamically inserted -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn play-again" onclick="playAgain()">Play Again</button>
+    </div>
+  </main>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <h2>Sign in</h2>
+      <div class="flex-container">
+        <button class="google-btn" id="google-signin">
+          <img
+            src="../../Assets/Icon/google-icon-logo-svgrepo-com.svg"
+            alt="Google"
+          />
+          Sign in with Google
+        </button>
+        <div>
+          <span class="close" style="text-decoration: underline">Cancel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Load SignInAPI.js after Firebase is loaded -->
+  <script src="../../API/SignIn-SignOut/SignInAPI.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="LeaderBoard.js"></script>
+</body>
+
+</html>
